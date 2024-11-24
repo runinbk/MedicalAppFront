@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import "./AddExamModal.css";
 
-const AddExamModal = ({ isOpen, onClose }) => {
+const AddExamModal = ({ isOpen, onClose, examData }) => {
+  if (examData) {
+    console.log(examData);
+  }
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {

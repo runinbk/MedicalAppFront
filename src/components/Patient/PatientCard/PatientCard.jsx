@@ -1,9 +1,10 @@
 import React from "react";
 import "./PatientCard.css";
+import { Link } from "react-router-dom";
 
 const PatientCard = ({ patient }) => {
   return (
-    <div className="patient-card">
+    <Link to="/patientprofile" className="patient-card">
       <div className="patient-header">
         <div>
           <h3>{patient.name}</h3>
@@ -27,7 +28,7 @@ const PatientCard = ({ patient }) => {
           <span>{patient.phone}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

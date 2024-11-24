@@ -5,6 +5,8 @@ import AddExamModal from "../../../Modals/PatientAddExamModal/AddExamModal";
 
 const HistoricClinicCardsList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [singleExamData, setSingleExamData] = useState(null);
+
   const examData = [
     {
       date: "07-08-2024",
@@ -29,15 +31,27 @@ const HistoricClinicCardsList = () => {
     },
   ];
 
+  const handleOpenModal = (exam) => {
+    if (exam) setSingleExamData(exam);
+
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSingleExamData(null);
+  };
+
   return (
     <>
       <AddExamModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
+        examData={singleExamData}
       />
       <div className="historic-clinic-section">
         <div className="exams-row">
-          <div className="add-exam-card" onClick={() => setIsModalOpen(true)}>
+          <div className="add-exam-card" onClick={() => handleOpenModal()}>
             <div className="add-exam-content">
               <div className="add-icon">+</div>
               <span className="add-text">
@@ -47,7 +61,11 @@ const HistoricClinicCardsList = () => {
           </div>
 
           {examData.map((exam, index) => (
-            <HistoricClinicCard exam={exam} key={index} />
+            <HistoricClinicCard
+              onClick={() => handleOpenModal(exam)}
+              exam={exam}
+              key={index}
+            />
           ))}
         </div>
       </div>

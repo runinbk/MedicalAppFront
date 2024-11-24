@@ -7,6 +7,13 @@
   border: 1px solid transparent;
   position: relative;
   top: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.patient-card:visited {
+  color: black;
+  text-decoration: none;
 }
 
 .patient-card:hover {

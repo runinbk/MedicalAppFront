@@ -1,8 +1,14 @@
 import React from "react";
 
-const HistoricClinicCard = ({ exam }) => {
+const HistoricClinicCard = ({ exam, onClick }) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(exam);
+    }
+  };
+
   return (
-    <div className="exam-card">
+    <div className="exam-card" onClick={handleClick}>
       <div className="exam-details">
         <div className="flex exam-title">
           <div className="flex">
