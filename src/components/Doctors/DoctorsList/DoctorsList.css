@@ -9,8 +9,6 @@
 
 .patient-tabs {
   margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .tab {
@@ -82,21 +80,4 @@
 
 .filter-icon {
   font-size: 16px;
-}
-
-.submit-button-paciente {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px;
-  width: 150px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.submit-button-paciente:hover {
-  background-color: #4f46e5;
 }

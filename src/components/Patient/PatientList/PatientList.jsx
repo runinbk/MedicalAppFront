@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PatientCard from "../PatientCard/PatientCard";
 import "./PatientList.css";
 import Search from "../../Search/Search";
+import CreatePatientModal from "../../Modals/CreatePatientModal/CreatePatientModal";
 
 const PatientList = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const patients = [
     {
       name: "Beatriz Morales",
@@ -87,6 +90,12 @@ const PatientList = () => {
       <div className="patient-list">
         <div className="patient-tabs">
           <button className="tab active">Pacientes</button>
+          <button
+            className="submit-button-paciente"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Crear Paciente
+          </button>
         </div>
         <div className="patient-grid">
           {patients.map((patient, index) => (
@@ -94,6 +103,11 @@ const PatientList = () => {
           ))}
         </div>
       </div>
+
+      <CreatePatientModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

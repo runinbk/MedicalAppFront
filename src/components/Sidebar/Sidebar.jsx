@@ -9,13 +9,14 @@ const Sidebar = ({ isOpen }) => {
     { path: "/", icon: "🏠", text: "Inicio" },
     { path: "/pacientes", icon: "👥", text: "Pacientes" },
     { path: "/revision", icon: "📋", text: "Hacer Revisión" },
+    { path: "/personal-medico", icon: "⚕️", text: "Personal Médico" },
   ];
 
   return (
     <div className={`sidebar ${!isOpen ? "hidden" : ""}`}>
       <div className="logo">Menu</div>
       <nav>
-        <ul>
+        <ul className="nav-list">
           {menuItems.map((item) => (
             <li key={item.path}>
               {item.path === "/" ? (
@@ -26,7 +27,7 @@ const Sidebar = ({ isOpen }) => {
                   }`}
                 >
                   <span className="icon">{item.icon}</span>
-                  {item.text}
+                  <span className="nav-text">{item.text}</span>
                 </a>
               ) : (
                 <Link
@@ -36,7 +37,7 @@ const Sidebar = ({ isOpen }) => {
                   }`}
                 >
                   <span className="icon">{item.icon}</span>
-                  {item.text}
+                  <span className="nav-text">{item.text}</span>
                 </Link>
               )}
             </li>

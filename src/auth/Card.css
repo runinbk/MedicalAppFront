@@ -1,0 +1,96 @@
+.auth-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.auth-card h1 {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.auth-card h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+.forgot-password {
+  display: block;
+  color: #1a237e;
+  text-decoration: none;
+  margin: 1rem 0;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 1.5rem 0;
+}
+
+.submit-button:hover {
+  background-color: #0d1757;
+}
+
+.switch-mode-text {
+  text-align: center;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.switch-mode-button {
+  background: none;
+  border: none;
+  color: #1a237e;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  font-size: inherit;
+}
+
+.switch-mode-button:hover {
+  text-decoration: underline;
+}
