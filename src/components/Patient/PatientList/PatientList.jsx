@@ -1,86 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PatientCard from "../PatientCard/PatientCard";
 import "./PatientList.css";
 import Search from "../../Search/Search";
 import CreatePatientModal from "../../Modals/CreatePatientModal/CreatePatientModal";
 
-const PatientList = () => {
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getPacientes } from "../../../actions/paciente";
+
+const PatientList = ({
+  getPacientes,
+  paciente: { pacientes, error, loading },
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const patients = [
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-  ];
+  useEffect(() => {
+    getPacientes();
+  }, [getPacientes]);
+
+  console.log(pacientes);
+
   return (
     <div className="patient-container">
       <div className="page-title-container">
@@ -98,7 +37,7 @@ const PatientList = () => {
           </button>
         </div>
         <div className="patient-grid">
-          {patients.map((patient, index) => (
+          {pacientes.map((patient, index) => (
             <PatientCard key={index} patient={patient} />
           ))}
         </div>
@@ -112,4 +51,13 @@ const PatientList = () => {
   );
 };
 
-export default PatientList;
+PatientList.propTypes = {
+  getPacientes: PropTypes.func.isRequired,
+  paciente: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  paciente: state.paciente,
+});
+
+export default connect(mapStateToProps, { getPacientes })(PatientList);

@@ -9,13 +9,14 @@ import {
 
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: false,
   user: null,
   error: null,
+  message: null,
 };
 
-export default function (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -23,6 +24,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: null,
+        message: null,
       };
 
     case USER_LOADED:
@@ -30,30 +33,54 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload.usuario,
+        token: payload.token,
+        error: null,
       };
 
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
+      console.log(payload);
       return {
         ...state,
-        ...payload,
+        token: payload.token,
+        user: payload.user,
+        message: payload.msg,
         isAuthenticated: true,
         loading: false,
         error: null,
       };
 
     case AUTH_ERROR:
-    case LOGIN_FAILED:
-    case LOG_OUT:
-      localStorage.removeItem("token");
       return {
         ...state,
         token: null,
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: type === LOGIN_FAILED ? payload : null,
+        error: "Error de autenticación",
+        message: null,
+      };
+
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        error: payload.response?.data?.msg || "Error al iniciar sesión",
+        message: null,
+      };
+
+    case LOG_OUT:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        error: null,
+        message: "Sesión cerrada correctamente",
       };
 
     default:

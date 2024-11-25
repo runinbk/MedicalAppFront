@@ -7,27 +7,48 @@ import {
   LOG_OUT,
   LOGIN_START,
 } from "./types";
+import setAuthToken from "../utils/setAuthToken";
 
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+      return;
     }
 
-    const res = await axios.get("/api/auth");
+    setAuthToken(token);
 
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    const res = await axios.get("http://localhost:3000/api/auth/renew");
+
+    console.log("Respuesta de renovación:", res.data);
+
+    if (res.data.ok) {
+      localStorage.setItem("token", res.data.token);
+
+      setAuthToken(res.data.token);
+
+      dispatch({
+        type: USER_LOADED,
+        payload: {
+          token: res.data.token,
+          user: res.data.usuario,
+        },
+      });
+    }
   } catch (err) {
+    console.error("Error al renovar token:", err);
+    localStorage.removeItem("token");
+    setAuthToken(null);
     dispatch({
       type: AUTH_ERROR,
     });
   }
 };
-
 // Login User
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -42,19 +63,46 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const body = JSON.stringify({ email, password });
-    const res = await axios.post("/api/auth/login", body, config); // Ajusta la URL según tu API
 
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
-    });
+    const res = await axios.post(
+      "http://localhost:3000/api/auth/login",
+      body,
+      config
+    );
 
-    dispatch(loadUser());
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+
+      axios.defaults.headers.common["x-auth-token"] = res.data.token;
+
+      console.log(res.data);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: {
+          token: res.data.token,
+          user: res.data.usuario,
+          message: res.data.msg,
+        },
+      });
+
+      /* dispatch(loadUser()); */
+    }
   } catch (err) {
+    const errorMessage = err.response?.data?.msg || "Error al iniciar sesión";
+
+    console.error("Error en login:", err);
+
     dispatch({
       type: LOGIN_FAILED,
-      payload: err.response.data.msg,
+      payload: {
+        msg: errorMessage,
+        status: err.response?.status,
+      },
     });
+
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common["x-auth-token"];
   }
 };
 
@@ -63,4 +111,5 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: LOG_OUT,
   });
+  localStorage.removeItem("token");
 };

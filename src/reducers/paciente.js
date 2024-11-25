@@ -36,6 +36,7 @@ export default function (state = initialState, action) {
     case POST_PACIENTE:
       return {
         ...state,
+        pacientes: [payload, ...state.pacientes],
         loading: false,
       };
 

@@ -12,12 +12,27 @@ import {
 export const getDoctores = () => async (dispatch) => {
   try {
     console.log("getting doctores");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.get("http://localhost:3000/api/medicos", config);
+
+    console.log(res.data);
+
+    console.log(res);
+
     dispatch({
       type: GET_DOCTORES,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
-      type: ERROR_DOCTOR, // Podrías crear un ERROR_DOCTOR si lo deseas
+      type: ERROR_DOCTOR,
     });
   }
 };
@@ -48,11 +63,26 @@ export const updateDoctor = () => async (dispatch) => {
   }
 };
 
-export const postDoctor = () => async (dispatch) => {
+export const postDoctor = (formData) => async (dispatch) => {
   try {
-    console.log("posting doctor");
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.post(
+      "http://localhost:3000/api/medicos",
+      formData,
+      config
+    );
+
     dispatch({
       type: POST_DOCTOR,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({

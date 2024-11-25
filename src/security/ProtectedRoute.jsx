@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children, auth: { user } }) => {
   if (!user) {
+    console.log("no user!");
     return <Navigate to="/auth" />;
   }
   return children;

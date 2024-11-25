@@ -1,6 +1,57 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { postPaciente } from "../../../actions/paciente";
 
-const CreatePatientModal = ({ isOpen, onClose }) => {
+const CreatePatientModal = ({
+  isOpen,
+  onClose,
+  postPaciente,
+  paciente: { pacientes, error, loading },
+}) => {
+  const [formData, setFormData] = useState({
+    nombre: "",
+    edad: "",
+    sexo: "",
+    direccion: "",
+    telefono: "",
+    email: "",
+    alergias: "",
+    condiciones_cronicas: "",
+    cirugias_pasadas: "",
+    fecha_nacimiento: "",
+    tipo_sangre: "",
+    dni: "",
+  });
+
+  const {
+    nombre,
+    edad,
+    sexo,
+    direccion,
+    telefono,
+    email,
+    alergias,
+    condiciones_cronicas,
+    cirugias_pasadas,
+    fecha_nacimiento,
+    tipo_sangre,
+    dni,
+  } = formData;
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await postPaciente(formData);
+    onClose();
+  };
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
@@ -34,24 +85,70 @@ const CreatePatientModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <form className="exam-form">
+        <form className="exam-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Nombre Completo</label>
             <input
               type="text"
-              placeholder="Beatriz Morales"
+              name="nombre"
+              value={nombre}
+              onChange={handleChange}
+              placeholder="Juan Pérez"
               className="form-input"
+              required
             />
           </div>
 
           <div className="form-row">
             <div className="form-group half">
               <label>Fecha de Nacimiento</label>
-              <input type="date" className="form-input" />
+              <input
+                type="date"
+                name="fecha_nacimiento"
+                value={fecha_nacimiento}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group half">
+              <label>Edad</label>
+              <input
+                type="number"
+                name="edad"
+                value={edad}
+                onChange={handleChange}
+                placeholder="35"
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group half">
+              <label>Sexo</label>
+              <select
+                name="sexo"
+                value={sexo}
+                onChange={handleChange}
+                className="form-input"
+                required
+              >
+                <option value="">Seleccionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
             </div>
             <div className="form-group half">
               <label>Tipo de Sangre</label>
-              <select className="form-input">
+              <select
+                name="tipo_sangre"
+                value={tipo_sangre}
+                onChange={handleChange}
+                className="form-input"
+                required
+              >
                 <option value="">Seleccionar</option>
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
@@ -70,28 +167,86 @@ const CreatePatientModal = ({ isOpen, onClose }) => {
               <label>DNI</label>
               <input
                 type="text"
+                name="dni"
+                value={dni}
+                onChange={handleChange}
                 placeholder="9876543210"
                 className="form-input"
+                required
               />
             </div>
             <div className="form-group half">
               <label>Teléfono</label>
               <input
                 type="tel"
-                placeholder="9876543210"
+                name="telefono"
+                value={telefono}
+                onChange={handleChange}
+                placeholder="123-456-7890"
                 className="form-input"
+                required
               />
             </div>
           </div>
+
           <div className="form-row">
             <div className="form-group half">
-              <label>Correo Electronico</label>
+              <label>Correo Electrónico</label>
               <input
                 type="email"
+                name="email"
+                value={email}
+                onChange={handleChange}
                 placeholder="ejemplo@gmail.com"
                 className="form-input"
+                required
               />
             </div>
+            <div className="form-group half">
+              <label>Dirección</label>
+              <input
+                type="text"
+                name="direccion"
+                value={direccion}
+                onChange={handleChange}
+                placeholder="Av. Principal 123"
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Alergias</label>
+            <textarea
+              name="alergias"
+              value={alergias}
+              onChange={handleChange}
+              placeholder="Detalles de alergias"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Condiciones Crónicas</label>
+            <textarea
+              name="condiciones_cronicas"
+              value={condiciones_cronicas}
+              onChange={handleChange}
+              placeholder="Detalles de condiciones crónicas"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Cirugías Pasadas</label>
+            <textarea
+              name="cirugias_pasadas"
+              value={cirugias_pasadas}
+              onChange={handleChange}
+              placeholder="Historial de cirugías"
+              className="form-input"
+            />
           </div>
 
           <button type="submit" className="submit-button">
@@ -104,4 +259,14 @@ const CreatePatientModal = ({ isOpen, onClose }) => {
     </div>
   );
 };
-export default CreatePatientModal;
+
+CreatePatientModal.propTypes = {
+  postPaciente: PropTypes.func.isRequired,
+  paciente: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  paciente: state.paciente,
+});
+
+export default connect(mapStateToProps, { postPaciente })(CreatePatientModal);

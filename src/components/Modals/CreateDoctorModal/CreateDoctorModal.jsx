@@ -1,7 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-const CreateDoctorModal = ({ isOpen, onClose, doctorInfo }) => {
-  console.log(doctorInfo);
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { postDoctor } from "../../../actions/doctor";
+
+const CreateDoctorModal = ({
+  isOpen,
+  onClose,
+  doctorInfo,
+  postDoctor,
+  doctor: { doctores, error, loading },
+}) => {
+  const [formData, setFormData] = useState({
+    nombre: "",
+    fechaNacimiento: "",
+    tipoSangre: "",
+    dni: "",
+    telefono: "",
+    email: "",
+    especialidad: "",
+  });
+
+  const {
+    nombre,
+    fechaNacimiento,
+    tipoSangre,
+    dni,
+    telefono,
+    email,
+    especialidad,
+  } = formData;
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await postDoctor(formData);
+    onClose();
+  };
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -36,24 +77,41 @@ const CreateDoctorModal = ({ isOpen, onClose, doctorInfo }) => {
           </button>
         </div>
 
-        <form className="exam-form">
+        <form className="exam-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Nombre Completo</label>
             <input
               type="text"
+              name="nombre"
+              value={nombre}
+              onChange={handleChange}
               placeholder="Beatriz Morales"
               className="form-input"
+              required
             />
           </div>
 
           <div className="form-row">
             <div className="form-group half">
               <label>Fecha de Nacimiento</label>
-              <input type="date" className="form-input" />
+              <input
+                type="date"
+                name="fechaNacimiento"
+                value={fechaNacimiento}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
             </div>
             <div className="form-group half">
               <label>Tipo de Sangre</label>
-              <select className="form-input">
+              <select
+                name="tipoSangre"
+                value={tipoSangre}
+                onChange={handleChange}
+                className="form-input"
+                required
+              >
                 <option value="">Seleccionar</option>
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
@@ -72,16 +130,24 @@ const CreateDoctorModal = ({ isOpen, onClose, doctorInfo }) => {
               <label>DNI</label>
               <input
                 type="text"
+                name="dni"
+                value={dni}
+                onChange={handleChange}
                 placeholder="9876543210"
                 className="form-input"
+                required
               />
             </div>
             <div className="form-group half">
               <label>Teléfono</label>
               <input
                 type="tel"
+                name="telefono"
+                value={telefono}
+                onChange={handleChange}
                 placeholder="9876543210"
                 className="form-input"
+                required
               />
             </div>
           </div>
@@ -90,8 +156,24 @@ const CreateDoctorModal = ({ isOpen, onClose, doctorInfo }) => {
               <label>Correo Electronico</label>
               <input
                 type="email"
+                name="email"
+                value={email}
+                onChange={handleChange}
                 placeholder="ejemplo@gmail.com"
                 className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group half">
+              <label>Especialidad</label>
+              <input
+                type="text"
+                name="especialidad"
+                value={especialidad}
+                onChange={handleChange}
+                placeholder="cardiologia"
+                className="form-input"
+                required
               />
             </div>
           </div>
@@ -106,4 +188,14 @@ const CreateDoctorModal = ({ isOpen, onClose, doctorInfo }) => {
     </div>
   );
 };
-export default CreateDoctorModal;
+
+CreateDoctorModal.propTypes = {
+  postDoctor: PropTypes.func.isRequired,
+  doctor: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  doctor: state.doctor,
+});
+
+export default connect(mapStateToProps, { postDoctor })(CreateDoctorModal);

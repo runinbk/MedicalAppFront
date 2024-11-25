@@ -1,16 +1,34 @@
-import React, { useState } from "react";
-import "./Styles/AuthPage.css";
+import React, { useEffect, useState } from "react";
+
 import LoginCard from "../auth/LoginCard";
 import RegisterCard from "../auth/RegisterCard";
+import { login } from "../actions/auth";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Navigate } from "react-router-dom";
 
-import docImage from "../assets/doctor.jpg";
+import "./Styles/AuthPage.css";
 
-const AuthPage = () => {
+const AuthPage = ({ login, isAuthenticated, loading, error }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+
+  useEffect(() => {
+    if (error == "Bad Login") {
+      toast.error("Error al iniciar sesion", { theme: "light" });
+    }
+  }, [error]);
 
   const toggleMode = () => {
     setIsLoginMode(!isLoginMode);
   };
+
+  if (isAuthenticated) {
+    console.log("autenticado");
+    console.log(isAuthenticated);
+    return <Navigate to="/pacientes" replace />;
+  }
 
   return (
     <div className="auth-container">
@@ -21,7 +39,7 @@ const AuthPage = () => {
 
       <div className="auth-content">
         {isLoginMode ? (
-          <LoginCard onSwitchMode={toggleMode} />
+          <LoginCard onSwitchMode={toggleMode} onLogin={login} />
         ) : (
           <RegisterCard onSwitchMode={toggleMode} />
         )}
@@ -30,4 +48,17 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+  error: state.auth.error,
+});
+
+AuthPage.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+};
+
+export default connect(mapStateToProps, { login })(AuthPage);

@@ -10,9 +10,19 @@ import {
 
 export const getPacientes = () => async (dispatch) => {
   try {
-    console.log("getting pacientes");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.get("http://localhost:3000/api/pacientes", config);
+
     dispatch({
       type: GET_PACIENTES,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
@@ -47,11 +57,25 @@ export const updatePaciente = () => async (dispatch) => {
   }
 };
 
-export const postPaciente = () => async (dispatch) => {
+export const postPaciente = (formData) => async (dispatch) => {
   try {
-    console.log("posting paciente");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.post(
+      "http://localhost:3000/api/pacientes",
+      formData,
+      config
+    );
+
     dispatch({
       type: POST_PACIENTE,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({

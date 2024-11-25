@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Card.css";
+import PropTypes from "prop-types";
 
-const LoginCard = ({ onSwitchMode }) => {
+const LoginCard = ({ onSwitchMode, onLogin }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,7 +10,7 @@ const LoginCard = ({ onSwitchMode }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login:", formData);
+    onLogin(formData.email, formData.password);
   };
 
   const handleChange = (e) => {
@@ -71,6 +72,11 @@ const LoginCard = ({ onSwitchMode }) => {
       </form>
     </div>
   );
+};
+
+LoginCard.propTypes = {
+  onSwitchMode: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
 };
 
 export default LoginCard;

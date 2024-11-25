@@ -1,87 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DoctorCard from "../DoctorCard/DoctorCard";
 import "./DoctorsList.css";
 import Search from "../../Search/Search";
 import CreateDoctorModal from "../../Modals/CreateDoctorModal/CreateDoctorModal";
 
-const DoctorsList = () => {
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getDoctores } from "../../../actions/doctor";
+
+const DoctorsList = ({ getDoctores, doctor: { doctores, error, loading } }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDoctorInfo, setIsDoctorInfo] = useState({});
   const [activeTab, setActiveTab] = useState("doctors");
-  const doctors = [
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-    {
-      name: "Beatriz Morales",
-      date: "07-08-2024",
-      bloodType: "ORH+",
-      id: "9876543210",
-      age: "28 anios",
-      phone: "9876543210",
-    },
-  ];
+
+  useEffect(() => {
+    getDoctores();
+  }, [getDoctores]);
+
+  console.log(doctores);
 
   const nurses = [
     {
@@ -178,7 +114,7 @@ const DoctorsList = () => {
         </div>
         <div className="patient-grid">
           {activeTab === "doctors"
-            ? doctors.map((doctor, index) => (
+            ? doctores.map((doctor, index) => (
                 <DoctorCard
                   key={index}
                   doctor={doctor}
@@ -205,4 +141,13 @@ const DoctorsList = () => {
   );
 };
 
-export default DoctorsList;
+DoctorsList.propTypes = {
+  getDoctores: PropTypes.func.isRequired,
+  doctor: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  doctor: state.doctor,
+});
+
+export default connect(mapStateToProps, { getDoctores })(DoctorsList);
