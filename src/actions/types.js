@@ -33,6 +33,7 @@ export const POST_DIAGNOSTICO = "POST_DIAGNOSTICO";
 export const UPDATE_DIAGNOSTICO = "UPDATE_DIAGNOSTICO";
 export const DELETE_DIAGNOSTICO = "DELETE_DIAGNOSTICO";
 export const ERROR_DIAGNOSTICO = "ERROR_DIAGNOSTICO";
+export const START_DIAGNOSTICO = "START_DIAGNOSTICO";
 
 //AUTH
 
@@ -42,3 +43,10 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOG_OUT = "LOG_OUT";
 export const LOGIN_START = "LOGINT_START";
+
+//IA
+
+export const IA_START = "IA_START";
+export const IA_ERROR = "IA_ERROR";
+export const IA_RESULT = "IA_RESULT";
+export const IA_SUCCESS = "IA_SUCCESS";

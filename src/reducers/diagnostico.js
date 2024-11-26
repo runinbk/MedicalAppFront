@@ -5,11 +5,14 @@ import {
   DELETE_DIAGNOSTICO,
   ERROR_DIAGNOSTICO,
   UPDATE_DIAGNOSTICO,
+  START_DIAGNOSTICO,
 } from "../actions/types";
 
 const initialState = {
   diagnosticos: [],
   diagnostico: null,
+  currentImage: null,
+  resultImage: null,
   loading: false,
   error: {},
 };
@@ -26,6 +29,13 @@ export default function (state = initialState, action) {
       };
 
     case GET_DIAGNOSTICO:
+      return {
+        ...state,
+        diagnostico: payload,
+        loading: false,
+      };
+
+    case START_DIAGNOSTICO:
       return {
         ...state,
         diagnostico: payload,

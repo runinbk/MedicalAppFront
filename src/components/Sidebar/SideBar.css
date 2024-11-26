@@ -1,11 +1,16 @@
 .sidebar {
-  width: 250px;
   background-color: var(--primary-color);
   color: white;
   padding: 20px;
   transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
+  /* Add these properties for fixed positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto; /* Allows scrolling if content is too tall */
 }
 
 .sidebar.hidden {
@@ -57,8 +62,18 @@
   font-size: 15px;
 }
 
-/* Añadir un efecto sutil de hover */
 .nav-item:hover .icon {
   transform: scale(1.1);
   transition: transform 0.2s ease;
+}
+
+/* Add this to your main content container to prevent overlap */
+.main-content {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust main content margin when sidebar is hidden */
+.sidebar.hidden + .main-content {
+  margin-left: 0;
 }

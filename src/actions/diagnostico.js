@@ -5,6 +5,7 @@ import {
   POST_DIAGNOSTICO,
   DELETE_DIAGNOSTICO,
   ERROR_DIAGNOSTICO,
+  START_DIAGNOSTICO,
 } from "./types";
 
 export const getDiagnosticos = () => async (dispatch) => {
@@ -46,9 +47,15 @@ export const updateDiagnostico = () => async (dispatch) => {
   }
 };
 
-export const postDiagnostico = () => async (dispatch) => {
+export const postDiagnostico = (formData) => async (dispatch) => {
   try {
     console.log("posting diagnostico");
+
+    dispatch({
+      type: START_DIAGNOSTICO,
+      payload: formData,
+    });
+
     dispatch({
       type: POST_DIAGNOSTICO,
     });
