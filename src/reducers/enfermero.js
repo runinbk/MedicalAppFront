@@ -11,7 +11,7 @@ const initialState = {
   enfermeros: [],
   enfermero: null,
   loading: false,
-  error: {},
+  error: null,
 };
 
 export default function (state = initialState, action) {

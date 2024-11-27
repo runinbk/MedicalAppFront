@@ -14,6 +14,7 @@ import { loadUser } from "./actions/auth";
 import ProtectedRoute from "./security/ProtectedRoute";
 import store from "./store";
 
+
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }

@@ -84,6 +84,14 @@
   gap: 16px;
 }
 
+.write-diagnosis-section h2 {
+  font-weight: bold;
+}
+
+.diagnosis-section h2 {
+  font-weight: bold;
+}
+
 .diagnosis-textarea {
   width: 100%;
   padding: 16px;

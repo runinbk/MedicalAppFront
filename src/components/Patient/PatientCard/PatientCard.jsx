@@ -1,34 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PatientCard.css";
 import { Link } from "react-router-dom";
+import { formatDate } from "../../../utils/dateFormatter";
+import CreatePatientModal from "../../Modals/CreatePatientModal/CreatePatientModal";
 
 const PatientCard = ({ patient }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <Link to="/patientprofile" className="patient-card">
-      <div className="patient-header">
-        <div>
-          <h3>{patient.name}</h3>
-          <span className="date-tag">{patient.date}</span>
+    <>
+      <div className="patient-card">
+        <div className="patient-header">
+          <div>
+            <h3>{patient.nombre}</h3>
+            <span className="date-tag">{formatDate(patient.createdAt)}</span>
+          </div>
+          <button className="edit-button" onClick={() => setIsModalOpen(true)}>
+            ✏️
+          </button>
         </div>
-        <button className="edit-button">✏️</button>
+        <Link to="/patientprofile" className="patient-info">
+          <div className="info-row">
+            <span className="label">Grupo Sanguineo:</span>
+            <span>ORH+</span>
+            <span className="label">CI:</span>
+            <span>{patient.ci}</span>
+          </div>
+          <div className="info-row">
+            <span className="label">Edad:</span>
+            <span>{patient.edad} años</span>
+          </div>
+          <div className="info-row">
+            <span className="label">Telefono:</span>
+            <span>{patient.telefono}</span>
+          </div>
+        </Link>
       </div>
-      <div className="patient-info">
-        <div className="info-row">
-          <span className="label">Grupo Sanguineo:</span>
-          <span>{patient.bloodType}</span>
-          <span className="label">CI:</span>
-          <span>{patient.ci}</span>
-        </div>
-        <div className="info-row">
-          <span className="label">Edad:</span>
-          <span>{patient.age} anios</span>
-        </div>
-        <div className="info-row">
-          <span className="label">Phone no:</span>
-          <span>{patient.phone}</span>
-        </div>
-      </div>
-    </Link>
+      <CreatePatientModal
+        isOpen={isModalOpen}
+        paciente={patient}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 };
 

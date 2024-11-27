@@ -7,6 +7,7 @@ import {
   POST_DOCTOR,
   DELETE_DOCTOR,
   ERROR_DOCTOR,
+  DEFAULT_DOCTOR,
 } from "./types";
 
 export const getDoctores = () => async (dispatch) => {
@@ -102,4 +103,10 @@ export const deleteDoctor = () => async (dispatch) => {
       type: ERROR_DOCTOR,
     });
   }
+};
+
+export const defaultDoctor = () => async (dispatch) => {
+  dispatch({
+    type: DEFAULT_DOCTOR,
+  });
 };

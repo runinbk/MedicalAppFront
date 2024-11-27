@@ -14,7 +14,7 @@ const initialState = {
   currentImage: null,
   resultImage: null,
   loading: false,
-  error: {},
+  error: null,
 };
 
 export default function (state = initialState, action) {

@@ -6,6 +6,7 @@ import {
   LOGIN_FAILED,
   LOG_OUT,
   LOGIN_START,
+  LOGIN_DEFAULT,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -112,4 +113,11 @@ export const logout = () => (dispatch) => {
     type: LOG_OUT,
   });
   localStorage.removeItem("token");
+};
+
+//login default
+export const loginDefault = () => (dispatch) => {
+  dispatch({
+    type: LOGIN_DEFAULT,
+  });
 };

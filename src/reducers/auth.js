@@ -5,6 +5,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   USER_LOADED,
+  LOGIN_DEFAULT,
 } from "../actions/types";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   user: null,
   error: null,
   message: null,
+  loginSuccess: false,
 };
 
 export default function authReducer(state = initialState, action) {
@@ -46,8 +48,17 @@ export default function authReducer(state = initialState, action) {
         user: payload.user,
         message: payload.msg,
         isAuthenticated: true,
+        loginSuccess: true,
         loading: false,
         error: null,
+      };
+
+    case LOGIN_DEFAULT:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        loginSuccess: false,
       };
 
     case AUTH_ERROR:
@@ -68,7 +79,7 @@ export default function authReducer(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: payload.response?.data?.msg || "Error al iniciar sesión",
+        error: "Bad Login",
         message: null,
       };
 

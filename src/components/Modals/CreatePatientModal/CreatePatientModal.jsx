@@ -3,13 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { postPaciente } from "../../../actions/paciente";
 
-const CreatePatientModal = ({
-  isOpen,
-  onClose,
-  postPaciente,
-  paciente: { pacientes, error, loading },
-}) => {
-  const [formData, setFormData] = useState({
+const CreatePatientModal = ({ isOpen, onClose, postPaciente, paciente }) => {
+  const initialState = {
     nombre: "",
     edad: "",
     sexo: "",
@@ -22,7 +17,30 @@ const CreatePatientModal = ({
     fecha_nacimiento: "",
     tipo_sangre: "",
     dni: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  useEffect(() => {
+    if (paciente) {
+      setFormData({
+        nombre: paciente.nombre || "",
+        edad: paciente.edad || "",
+        sexo: paciente.sexo || "",
+        direccion: paciente.direccion || "",
+        telefono: paciente.telefono || "",
+        email: paciente.email || "",
+        alergias: paciente.alergias || "",
+        condiciones_cronicas: paciente.condiciones_cronicas || "",
+        cirugias_pasadas: paciente.cirugias_pasadas || "",
+        fecha_nacimiento: paciente.fecha_nacimiento || "",
+        tipo_sangre: paciente.tipo_sangre || "",
+        dni: paciente.dni || "",
+      });
+    } else {
+      setFormData(initialState);
+    }
+  }, [paciente]);
 
   const {
     nombre,
@@ -79,7 +97,7 @@ const CreatePatientModal = ({
     >
       <div className={`modal-container ${isOpen ? "modal-enter" : ""}`}>
         <div className="modal-header">
-          <h2>Crear Paciente</h2>
+          <h2>{!paciente ? "Crear Paciente" : "Actualizar Paciente"}</h2>
           <button className="close-button" onClick={onClose}>
             ✕
           </button>
@@ -250,7 +268,7 @@ const CreatePatientModal = ({
           </div>
 
           <button type="submit" className="submit-button">
-            Crear Paciente
+            {!paciente ? "Crear Paciente" : "Actualizar Paciente"}
           </button>
 
           <p className="verify-text">Verifica que los datos sean correctos</p>
@@ -262,11 +280,8 @@ const CreatePatientModal = ({
 
 CreatePatientModal.propTypes = {
   postPaciente: PropTypes.func.isRequired,
-  paciente: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  paciente: state.paciente,
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { postPaciente })(CreatePatientModal);

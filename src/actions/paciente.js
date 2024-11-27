@@ -6,6 +6,8 @@ import {
   UPDATE_PACIENTE,
   POST_PACIENTE,
   ERROR_PACIENTE,
+  DEFAULT_PACIENTE,
+  SELECT_PACIENTE,
 } from "./types";
 
 export const getPacientes = () => async (dispatch) => {
@@ -44,11 +46,25 @@ export const getPaciente = () => async (dispatch) => {
   }
 };
 
-export const updatePaciente = () => async (dispatch) => {
+export const updatePaciente = (formData) => async (dispatch) => {
   try {
-    console.log("updating paciente");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.put(
+      "http://localhost:3000/api/pacientes",
+      formData,
+      config
+    );
+
     dispatch({
       type: UPDATE_PACIENTE,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
@@ -82,4 +98,18 @@ export const postPaciente = (formData) => async (dispatch) => {
       type: ERROR_PACIENTE,
     });
   }
+};
+
+export const defaultPaciente = () => async (dispatch) => {
+  dispatch({
+    type: DEFAULT_PACIENTE,
+  });
+};
+
+export const setPaciente = (paciente) => (dispatch) => {
+  console.log(paciente);
+  dispatch({
+    type: SELECT_PACIENTE,
+    payload: paciente,
+  });
 };

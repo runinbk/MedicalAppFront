@@ -6,13 +6,16 @@ import {
   DELETE_PACIENTE,
   ERROR_PACIENTE,
   UPDATE_PACIENTE,
+  DEFAULT_PACIENTE,
+  SELECT_PACIENTE,
 } from "../actions/types";
 
 const initialState = {
   pacientes: [],
   paciente: null,
   loading: false,
-  error: {},
+  creationSuccess: false,
+  error: null,
 };
 
 export default function (state = initialState, action) {
@@ -26,6 +29,12 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case SELECT_PACIENTE:
+      return {
+        ...state,
+        paciente: payload,
+      };
+
     case GET_PACIENTE:
       return {
         ...state,
@@ -33,10 +42,18 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case DEFAULT_PACIENTE:
+      return {
+        ...state,
+        loading: false,
+        creationSuccess: false,
+      };
+
     case POST_PACIENTE:
       return {
         ...state,
         pacientes: [payload, ...state.pacientes],
+        creationSuccess: true,
         loading: false,
       };
 

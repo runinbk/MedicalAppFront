@@ -6,6 +6,8 @@ export const POST_PACIENTE = "POST_PACIENTE";
 export const UPDATE_PACIENTE = "UPDATE_PACIENTE";
 export const DELETE_PACIENTE = "DELETE_PACIENTE";
 export const ERROR_PACIENTE = "ERROR_PACIENTE";
+export const DEFAULT_PACIENTE = "DEFAULT_PACIENTE";
+export const SELECT_PACIENTE = "SELECT_PACIENTE";
 
 //DOCTORES
 
@@ -15,6 +17,7 @@ export const POST_DOCTOR = "POST_DOCTOR";
 export const UPDATE_DOCTOR = "UPDATE_DOCTOR";
 export const DELETE_DOCTOR = "DELETE_DOCTOR";
 export const ERROR_DOCTOR = "ERROR_DOCTOR";
+export const DEFAULT_DOCTOR = "DEFAULT_DOCTOR";
 
 //ENFERMEROS
 
@@ -42,7 +45,8 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOG_OUT = "LOG_OUT";
-export const LOGIN_START = "LOGINT_START";
+export const LOGIN_START = "LOGIN_START";
+export const LOGIN_DEFAULT = "LOGIN_DEFAULT";
 
 //IA
 
@@ -50,3 +54,4 @@ export const IA_START = "IA_START";
 export const IA_ERROR = "IA_ERROR";
 export const IA_RESULT = "IA_RESULT";
 export const IA_SUCCESS = "IA_SUCCESS";
+export const IA_DEFAULT = "IA_DEFAULT";

@@ -16,6 +16,11 @@
   text-decoration: none;
 }
 
+.patient-info:visited {
+  color: black;
+  text-decoration: none;
+}
+
 .patient-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-color: var(--primary-color);
@@ -78,6 +83,7 @@
 .patient-info {
   display: flex;
   flex-direction: column;
+  text-decoration: none;
   gap: 8px;
 }
 

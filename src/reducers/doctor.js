@@ -5,13 +5,15 @@ import {
   DELETE_DOCTOR,
   ERROR_DOCTOR,
   UPDATE_DOCTOR,
+  DEFAULT_DOCTOR,
 } from "../actions/types";
 
 const initialState = {
   doctores: [],
   doctor: null,
   loading: false,
-  error: {},
+  creationSuccess: false,
+  error: null,
 };
 
 export default function (state = initialState, action) {
@@ -25,6 +27,12 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case DEFAULT_DOCTOR:
+      return {
+        ...state,
+        creationSuccess: false,
+      };
+
     case GET_DOCTOR:
       return {
         ...state,
@@ -36,6 +44,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         doctores: [payload, ...state.doctores],
+        creationSuccess: true,
         loading: false,
       };
 

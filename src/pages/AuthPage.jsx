@@ -15,6 +15,7 @@ const AuthPage = ({ login, isAuthenticated, loading, error }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   useEffect(() => {
+    console.log(error);
     if (error == "Bad Login") {
       toast.error("Error al iniciar sesion", { theme: "light" });
     }
@@ -31,20 +32,24 @@ const AuthPage = ({ login, isAuthenticated, loading, error }) => {
   }
 
   return (
-    <div className="auth-container">
-      <div className="auth-icons">
-        <div className="icon-auth clipboard-icon"></div>
-        <div className="icon-auth lungs-icon"></div>
-      </div>
+    <>
+      <ToastContainer />
 
-      <div className="auth-content">
-        {isLoginMode ? (
-          <LoginCard onSwitchMode={toggleMode} onLogin={login} />
-        ) : (
-          <RegisterCard onSwitchMode={toggleMode} />
-        )}
+      <div className="auth-container">
+        <div className="auth-icons">
+          <div className="icon-auth clipboard-icon"></div>
+          <div className="icon-auth lungs-icon"></div>
+        </div>
+
+        <div className="auth-content">
+          {isLoginMode ? (
+            <LoginCard onSwitchMode={toggleMode} onLogin={login} />
+          ) : (
+            <RegisterCard onSwitchMode={toggleMode} />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

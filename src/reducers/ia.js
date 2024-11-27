@@ -1,11 +1,19 @@
-import { IA_ERROR, IA_RESULT, IA_START, IA_SUCCESS } from "../actions/types";
+import {
+  IA_DEFAULT,
+  IA_ERROR,
+  IA_RESULT,
+  IA_START,
+  IA_SUCCESS,
+} from "../actions/types";
 
 const initialState = {
-  preddicion: "",
+  diagnostico: "",
   currentImage: null,
   resultImage: null,
   loading: false,
-  error: {},
+  iaSuccess: false,
+  error: null,
+  paciente: "",
 };
 
 export default function (state = initialState, action) {
@@ -23,8 +31,9 @@ export default function (state = initialState, action) {
     case IA_SUCCESS:
       return {
         ...state,
-        resultImage: payload.image,
-        preddiccion: payload.prediccion,
+        resultImage: payload.imagen,
+        diagnostico: payload.diagnostico,
+        iaSuccess: true,
         loading: false,
       };
 
@@ -33,6 +42,12 @@ export default function (state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
+      };
+
+    case IA_DEFAULT:
+      return {
+        ...state,
+        iaSuccess: false,
       };
 
     default: {

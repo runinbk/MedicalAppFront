@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { IA_ERROR, IA_RESULT, IA_START, IA_SUCCESS } from "./types";
+import { IA_DEFAULT, IA_ERROR, IA_RESULT, IA_START, IA_SUCCESS } from "./types";
 
 export const iaLoading = (file) => (dispatch) => {
   const formData = new FormData();
@@ -9,6 +9,12 @@ export const iaLoading = (file) => (dispatch) => {
   dispatch({
     type: IA_START,
     payload: formData,
+  });
+};
+
+export const iaDefault = () => async (dispatch) => {
+  dispatch({
+    type: IA_DEFAULT,
   });
 };
 
@@ -24,12 +30,12 @@ export const iaAnalisis = (file) => async (dispatch) => {
     };
 
     const res = await axios.post(
-      "http://127.0.0.1:5000/detectar2",
+      "https://ministerial-wini-davv-9825e092.koyeb.app/detectar2",
       formData,
       config
     );
 
-    console.log(res);
+    console.log(res.data);
 
     dispatch({
       type: IA_SUCCESS,
