@@ -14,7 +14,6 @@ import { loadUser } from "./actions/auth";
 import ProtectedRoute from "./security/ProtectedRoute";
 import store from "./store";
 
-
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -27,7 +26,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Pacientes />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/auth" element={<AuthPage />} />
 
