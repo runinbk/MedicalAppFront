@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children, auth: { user } }) => {
-  if (!user) {
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  if (!isAuthenticated) {
     console.log("no user!");
     return <Navigate to="/auth" />;
   }
@@ -13,11 +13,11 @@ const ProtectedRoute = ({ children, auth: { user } }) => {
 };
 
 ProtectedRoute.propTypes = {
-  auth: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {})(ProtectedRoute);

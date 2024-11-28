@@ -24,7 +24,13 @@ export const loadUser = () => async (dispatch) => {
 
     setAuthToken(token);
 
-    const res = await axios.get("http://localhost:3000/api/auth/renew");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.get("http://localhost:3000/api/auth/renew", config);
 
     console.log("Respuesta de renovación:", res.data);
 
@@ -32,6 +38,8 @@ export const loadUser = () => async (dispatch) => {
       localStorage.setItem("token", res.data.token);
 
       setAuthToken(res.data.token);
+
+      console.log(res.data);
 
       dispatch({
         type: USER_LOADED,
