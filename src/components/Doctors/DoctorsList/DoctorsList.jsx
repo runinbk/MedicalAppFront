@@ -10,14 +10,12 @@ import { getDoctores } from "../../../actions/doctor";
 
 const DoctorsList = ({ getDoctores, doctor: { doctores, error, loading } }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDoctorInfo, setIsDoctorInfo] = useState({});
+  const [isDoctorInfo, setIsDoctorInfo] = useState(null);
   const [activeTab, setActiveTab] = useState("doctors");
 
   useEffect(() => {
     getDoctores();
   }, [getDoctores]);
-
-  console.log(doctores);
 
   const nurses = [
     {
@@ -80,9 +78,10 @@ const DoctorsList = ({ getDoctores, doctor: { doctores, error, loading } }) => {
 
   function handleOpenModal(doctor) {
     if (doctor) setIsDoctorInfo(doctor);
-    console.log("abriendo");
+
     setIsModalOpen(true);
   }
+
   return (
     <div className="patient-container">
       <div className="page-title-container">
@@ -107,7 +106,10 @@ const DoctorsList = ({ getDoctores, doctor: { doctores, error, loading } }) => {
           </div>
           <button
             className="submit-button-paciente"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setIsModalOpen(true);
+              setIsDoctorInfo(null);
+            }}
           >
             Crear {activeTab === "doctors" ? "Doctor" : "Enfermero"}
           </button>
@@ -135,7 +137,7 @@ const DoctorsList = ({ getDoctores, doctor: { doctores, error, loading } }) => {
         doctorInfo={isDoctorInfo}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        type={activeTab} // Pass the active tab to the modal
+        type={activeTab}
       />
     </div>
   );

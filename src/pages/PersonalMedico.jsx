@@ -13,7 +13,7 @@ import { defaultDoctor } from "../actions/doctor";
 
 const PersonalMedico = ({
   defaultDoctor,
-  doctor: { creationSuccess, error },
+  doctor: { creationSuccess, error, msg },
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -23,7 +23,11 @@ const PersonalMedico = ({
 
   useEffect(() => {
     if (creationSuccess) {
-      toast.success("Doctor creado con Exito", { theme: "light" });
+      if (msg == "") {
+        toast.success("Doctor creado con Exito", { theme: "light" });
+      } else {
+        toast.success("Doctor actualizado con Exito", { theme: "light" });
+      }
     }
 
     if (error) {

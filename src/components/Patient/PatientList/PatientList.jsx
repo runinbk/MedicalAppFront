@@ -18,8 +18,6 @@ const PatientList = ({
     getPacientes();
   }, [getPacientes]);
 
-  console.log(pacientes);
-
   return (
     <div className="patient-container">
       <div className="page-title-container">

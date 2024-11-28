@@ -13,6 +13,7 @@ const initialState = {
   doctor: null,
   loading: false,
   creationSuccess: false,
+  msg: "",
   error: null,
 };
 
@@ -31,6 +32,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         creationSuccess: false,
+        msg: "",
       };
 
     case GET_DOCTOR:
@@ -58,6 +60,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+        creationSuccess: true,
+        msg: payload.msg,
+        doctores: state.doctores.map((doctor) =>
+          doctor.id == payload.medico.id ? payload.medico : doctor
+        ),
       };
 
     case ERROR_DOCTOR:

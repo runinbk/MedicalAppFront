@@ -16,7 +16,7 @@ const Pacientes = ({
   loginDefault,
   defaultPaciente,
   auth: { loginSuccess },
-  paciente: { creationSuccess, error },
+  paciente: { creationSuccess, error, msg },
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -31,7 +31,11 @@ const Pacientes = ({
     }
 
     if (creationSuccess) {
-      toast.success("Paciente creado con Exito", { theme: "light" });
+      if (msg == "") {
+        toast.success("Paciente creado con Exito", { theme: "light" });
+      } else {
+        toast.success("Paciente actualizado con Exito", { theme: "light" });
+      }
     }
 
     if (error) {

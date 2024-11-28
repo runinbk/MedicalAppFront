@@ -23,10 +23,6 @@ export const getDoctores = () => async (dispatch) => {
 
     const res = await axios.get("http://localhost:3000/api/medicos", config);
 
-    console.log(res.data);
-
-    console.log(res);
-
     dispatch({
       type: GET_DOCTORES,
       payload: res.data,
@@ -51,11 +47,28 @@ export const getDoctor = () => async (dispatch) => {
   }
 };
 
-export const updateDoctor = () => async (dispatch) => {
+export const updateDoctor = (formData, id) => async (dispatch) => {
   try {
-    console.log("updating doctor");
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+    };
+
+    const res = await axios.put(
+      `http://localhost:3000/api/medicos/${id}`,
+      formData,
+      config
+    );
+
+    console.log(res.data);
+
     dispatch({
       type: UPDATE_DOCTOR,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({

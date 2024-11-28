@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { postPaciente } from "../../../actions/paciente";
+import {
+  defaultPaciente,
+  postPaciente,
+  updatePaciente,
+} from "../../../actions/paciente";
 
-const CreatePatientModal = ({ isOpen, onClose, postPaciente, paciente }) => {
+const CreatePatientModal = ({
+  isOpen,
+  onClose,
+  postPaciente,
+  paciente,
+  updatePaciente,
+  defaultPaciente,
+}) => {
   const initialState = {
     nombre: "",
     edad: "",
@@ -66,7 +77,14 @@ const CreatePatientModal = ({ isOpen, onClose, postPaciente, paciente }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postPaciente(formData);
+    if (!paciente) {
+      await postPaciente(formData);
+    } else {
+      console.log("actualizando paciente");
+      updatePaciente(formData, paciente.id);
+    }
+
+    defaultPaciente();
     onClose();
   };
 
@@ -280,8 +298,14 @@ const CreatePatientModal = ({ isOpen, onClose, postPaciente, paciente }) => {
 
 CreatePatientModal.propTypes = {
   postPaciente: PropTypes.func.isRequired,
+  updatePaciente: PropTypes.func.isRequired,
+  defaultPaciente: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { postPaciente })(CreatePatientModal);
+export default connect(mapStateToProps, {
+  postPaciente,
+  updatePaciente,
+  defaultPaciente,
+})(CreatePatientModal);

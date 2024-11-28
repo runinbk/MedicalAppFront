@@ -46,7 +46,7 @@ export const getPaciente = () => async (dispatch) => {
   }
 };
 
-export const updatePaciente = (formData) => async (dispatch) => {
+export const updatePaciente = (formData, id) => async (dispatch) => {
   try {
     const token = localStorage.getItem("token");
     const config = {
@@ -57,10 +57,12 @@ export const updatePaciente = (formData) => async (dispatch) => {
     };
 
     const res = await axios.put(
-      "http://localhost:3000/api/pacientes",
+      `http://localhost:3000/api/pacientes/${id}`,
       formData,
       config
     );
+
+    console.log(res.data);
 
     dispatch({
       type: UPDATE_PACIENTE,

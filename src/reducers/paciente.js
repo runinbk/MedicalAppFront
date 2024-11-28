@@ -15,6 +15,7 @@ const initialState = {
   paciente: null,
   loading: false,
   creationSuccess: false,
+  msg: "",
   error: null,
 };
 
@@ -47,6 +48,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         creationSuccess: false,
+        msg: "",
       };
 
     case POST_PACIENTE:
@@ -67,6 +69,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+        creationSuccess: true,
+        msg: payload.msg,
+        pacientes: state.pacientes.map((paciente) =>
+          paciente.id == payload.paciente.id ? payload.paciente : paciente
+        ),
       };
 
     case ERROR_PACIENTE:

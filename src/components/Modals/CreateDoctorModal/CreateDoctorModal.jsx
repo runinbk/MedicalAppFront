@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { postDoctor } from "../../../actions/doctor";
+import { postDoctor, updateDoctor } from "../../../actions/doctor";
 
 const CreateDoctorModal = ({
   isOpen,
   onClose,
   doctorInfo,
   postDoctor,
+  updateDoctor,
   doctor: { doctores, error, loading },
 }) => {
-  const [formData, setFormData] = useState({
+  const initialState = {
     nombre: "",
     fechaNacimiento: "",
     tipoSangre: "",
@@ -19,7 +20,25 @@ const CreateDoctorModal = ({
     telefono: "",
     email: "",
     especialidad: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  useEffect(() => {
+    if (doctorInfo) {
+      setFormData({
+        nombre: doctorInfo.nombre || "",
+        fechaNacimiento: doctorInfo.fechaNacimiento || "",
+        tipoSangre: doctorInfo.tipoSangre || "",
+        dni: doctorInfo.dni || "",
+        telefono: doctorInfo.telefono || "",
+        email: doctorInfo.email || "",
+        especialidad: doctorInfo.especialidad || "",
+      });
+    } else {
+      setFormData(initialState);
+    }
+  }, [doctorInfo]);
 
   const {
     nombre,
@@ -40,7 +59,11 @@ const CreateDoctorModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postDoctor(formData);
+    if (!doctorInfo) {
+      await postDoctor(formData);
+    } else {
+      updateDoctor(formData, doctorInfo.id);
+    }
     onClose();
   };
 
@@ -71,7 +94,7 @@ const CreateDoctorModal = ({
     >
       <div className={`modal-container ${isOpen ? "modal-enter" : ""}`}>
         <div className="modal-header">
-          <h2>Crear Doctor</h2>
+          <h2>{doctorInfo ? "Actualizar Doctor" : "Crear Doctor"}</h2>
           <button className="close-button" onClick={onClose}>
             ✕
           </button>
@@ -179,7 +202,7 @@ const CreateDoctorModal = ({
           </div>
 
           <button type="submit" className="submit-button">
-            Guardar
+            {doctorInfo ? "Actualizar" : "Guardar"}
           </button>
 
           <p className="verify-text">Verifica que los datos sean correctos</p>
@@ -192,10 +215,13 @@ const CreateDoctorModal = ({
 CreateDoctorModal.propTypes = {
   postDoctor: PropTypes.func.isRequired,
   doctor: PropTypes.object.isRequired,
+  updateDoctor: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   doctor: state.doctor,
 });
 
-export default connect(mapStateToProps, { postDoctor })(CreateDoctorModal);
+export default connect(mapStateToProps, { postDoctor, updateDoctor })(
+  CreateDoctorModal
+);
